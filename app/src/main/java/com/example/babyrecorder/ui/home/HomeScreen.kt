@@ -14,13 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.babyrecorder.viewmodel.MainViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel
 ) {
     val context = LocalContext.current
-    var buttonColor by remember { mutableStateOf(MaterialTheme.colorScheme.primary) }
+    val primaryColor = MaterialTheme.colorScheme.primary
+    var buttonColor by remember { mutableStateOf(primaryColor) }
     
     Column(
         modifier = Modifier
@@ -40,14 +42,8 @@ fun HomeScreen(
                 // 保存记录到数据库
                 viewModel.addClickRecord()
                 
-                // 延迟恢复按钮颜色
-                java.util.Timer().schedule(object : java.util.TimerTask() {
-                    override fun run() {
-                        (context as? androidx.activity.ComponentActivity)?.runOnUiThread {
-                            buttonColor = MaterialTheme.colorScheme.primary
-                        }
-                    }
-                }, 200)
+                // 使用 LaunchedEffect 延迟恢复按钮颜色
+                // 这是 Compose 推荐的方式，替代 Timer 和 runOnUiThread
             },
             modifier = Modifier
                 .size(200.dp)
@@ -55,6 +51,14 @@ fun HomeScreen(
             colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
         ) {
             Text("点击", color = Color.White)
+        }
+    }
+    
+    // 使用 LaunchedEffect 实现延迟恢复按钮颜色
+    LaunchedEffect(buttonColor) {
+        if (buttonColor == Color.Green) {
+            delay(200)
+            buttonColor = primaryColor
         }
     }
 }

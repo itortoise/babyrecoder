@@ -1,11 +1,13 @@
 package com.example.babyrecorder.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import com.example.babyrecorder.ui.home.HomeScreen
@@ -62,7 +64,7 @@ fun BottomNavigationBar(navController: NavController) {
         )
         
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.Analytics, contentDescription = "统计") },
+            icon = { Icon(Icons.Filled.BarChart, contentDescription = "统计") }, // 使用 BarChart 替代 Analytics
             label = { Text("统计") },
             selected = navController.currentDestination?.route == Screen.Stats.route,
             onClick = {

@@ -51,9 +51,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    // 添加 Material Icons 扩展
+    implementation(libs.androidx.compose.material.icons.extended)
     // 添加 Room 数据库依赖
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.compose.runtime.livedata)
     kapt(libs.androidx.room.compiler)
     // 添加 ViewModel 依赖
     implementation(libs.androidx.lifecycle.viewmodel.compose)

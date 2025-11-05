@@ -1,20 +1,25 @@
 package com.example.babyrecorder.ui.stats
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.babyrecorder.data.ClickRecord
 import com.example.babyrecorder.viewmodel.MainViewModel
 
 @Composable
 fun StatsScreen(
     viewModel: MainViewModel = viewModel()
 ) {
-    val records by viewModel.allRecords.collectAsState()
-    val count by viewModel.recordCount.collectAsState()
+    // 为 LiveData 使用 observeAsState()
+    val records: List<ClickRecord>? by viewModel.allRecords.observeAsState()
+    val count: Int? by viewModel.recordCount.observeAsState()
     
     Column(
         modifier = Modifier
@@ -29,7 +34,7 @@ fun StatsScreen(
         )
         
         Text(
-            text = "总点击次数: $count",
+            text = "总点击次数: ${count ?: 0}",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 32.dp)
         )
@@ -41,7 +46,7 @@ fun StatsScreen(
         )
         
         LazyColumn {
-            items(records) { record ->
+            items(records ?: emptyList()) { record: ClickRecord ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
